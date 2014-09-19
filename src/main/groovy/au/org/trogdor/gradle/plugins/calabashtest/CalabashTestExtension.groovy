@@ -23,11 +23,19 @@ class CalabashTestExtension {
     }
 
     def appBundlePath(String appBundlePath) {
-        this.appBundlePath = appBundlePath
+        this.appBundlePath = project.file(appBundlePath).path
+    }
+
+    def appBundlePath(File appBundleFile) {
+        this.appBundlePath = appBundleFile.path
     }
 
     def featuresDir(String featuresDir) {
-        this.featuresDir = featuresDir
+        this.featuresDir = project.file(featuresDir)
+    }
+
+    def featuresDir(File featuresDir) {
+        this.featuresDir = featuresDir.path
     }
 
     def format(String format) {

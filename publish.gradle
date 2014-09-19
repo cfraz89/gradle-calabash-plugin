@@ -1,0 +1,7 @@
+uploadArchives {
+		repositories {
+	        mavenDeployer {
+	            repository(url: "http://nexus.int.corp.sun/content/repositories/extFree")
+	        }
+	    }
+	}

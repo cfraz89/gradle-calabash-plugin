@@ -1,5 +1,5 @@
 
-version = 0.1
+version = 0.11
 group 'au.org.trogdor.gradle-plugins'
 ext.artifactId = 'gradle-calabash-plugin'
 
@@ -34,3 +34,5 @@ afterEvaluate {
 	    }
 	}
 }
+
+//apply from: 'publish.gradle'

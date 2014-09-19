@@ -2,6 +2,7 @@ package au.org.trogdor.gradle.plugins.calabashtest
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.TaskExecutionException
 
 /**
  * Created by chrisfraser on 25/07/2014.
@@ -17,11 +18,14 @@ class CalabashRunTask extends DefaultTask {
     def run() {
         project.file(outDir).mkdir()
 
-        project.exec {
-            if (appBundlePath)
-                environment ('APP_BUNDLE_PATH', appBundlePath)
-            commandLine generateExecCommand()
-        }
+        List appEnv = appBundlePath ? ["APP_BUNDLE_PATH=$appBundlePath"] : []
+        def env = System.getenv().collect {k,v -> "$k=$v"}
+        def process = generateExecCommand().execute(env+appEnv, project.projectDir)
+        process.consumeProcessOutput(System.out, System.err)
+        process.waitFor()
+
+        if (!process.exitValue())
+            throw new TaskExecutionException("Calabash failed");
     }
 
     def generateExecCommand() {
